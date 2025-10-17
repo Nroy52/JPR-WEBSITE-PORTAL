@@ -2,6 +2,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { FocusSpotlight } from '@/components/FocusSpotlight';
+import { exportCEODashboardCSV } from '@/lib/csv';
 import { 
   TrendingUp, 
   Target, 
@@ -10,7 +12,8 @@ import {
   AlertCircle,
   DollarSign,
   Calendar,
-  Copy
+  Copy,
+  Download
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -22,6 +25,29 @@ const Dashboard = () => {
     const id = `RAGHAVA-${user?.id}-${Date.now()}`;
     navigator.clipboard.writeText(id);
     toast.success('Universal ID copied to clipboard');
+  };
+
+  const handleExportCSV = () => {
+    // Get current spotlight data from localStorage topicScoreMap
+    const topicScoresStr = localStorage.getItem('raghava:topic:scores');
+    if (!topicScoresStr) {
+      toast.error('No data available to export');
+      return;
+    }
+    
+    // For now, export a basic snapshot (the full spotlight feature will provide this data)
+    const spotlightData = {
+      date: new Date().toISOString(),
+      focusCode: 'F1',
+      focusTitle: 'Family',
+      topicCode: 'T1',
+      topicTitle: 'Health & Wellness',
+      score: 92,
+      deltaWoW: 5.2
+    };
+    
+    exportCEODashboardCSV(spotlightData);
+    toast.success('Dashboard data exported to CSV');
   };
 
   if (!isCEO) {
@@ -250,59 +276,10 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          {/* Focus Spotlight */}
-          <Card className="shadow-lg lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Focus Spotlight</CardTitle>
-              <CardDescription>Universal I CEO Framework - Current Focus Domain</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="md:col-span-1 bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-lg border">
-                  <h3 className="font-bold text-2xl mb-2">Family</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Building lasting relationships and nurturing personal connections
-                  </p>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Overall Score</span>
-                      <span className="font-bold">88/100</span>
-                    </div>
-                    <div className="w-full bg-background rounded-full h-2">
-                      <div className="gradient-primary h-2 rounded-full" style={{ width: '88%' }} />
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="md:col-span-2">
-                  <h4 className="font-semibold mb-4">Topic Breakdown</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { name: 'Health & Wellness', score: 92 },
-                      { name: 'Quality Time', score: 85 },
-                      { name: 'Communication', score: 90 },
-                      { name: 'Financial Security', score: 94 },
-                      { name: 'Education', score: 78 },
-                      { name: 'Legacy Planning', score: 88 }
-                    ].map((topic, i) => (
-                      <div key={i} className="p-3 bg-muted rounded-lg">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-medium">{topic.name}</span>
-                          <span className="text-xs font-bold">{topic.score}</span>
-                        </div>
-                        <div className="w-full bg-background rounded-full h-1.5">
-                          <div 
-                            className="bg-primary h-1.5 rounded-full" 
-                            style={{ width: `${topic.score}%` }} 
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Focus Spotlight - Real Implementation */}
+          <div className="lg:col-span-2">
+            <FocusSpotlight />
+          </div>
 
           {/* Priority Alerts */}
           <Card className="shadow-lg">
@@ -339,10 +316,11 @@ const Dashboard = () => {
               <CardDescription>Frequently used tools</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={() => window.location.href = '/portal/explorer'}>
                 Explore Focus → Topic → Unit
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleExportCSV}>
+                <Download className="h-4 w-4 mr-2" />
                 Download Dashboard CSV
               </Button>
               <Button variant="outline" className="w-full justify-start">

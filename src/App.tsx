@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,16 +16,39 @@ import Vault from "./pages/Vault";
 import Tasks from "./pages/Tasks";
 import Messages from "./pages/Messages";
 import Review from "./pages/Review";
+import Explorer from "./pages/Explorer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Origin lock for https://jaireddy.uk/portal
+const ALLOWED_ORIGINS = ["https://jaireddy.uk", "https://www.jaireddy.uk"];
+
+const OriginGuard = ({ children }: { children: React.ReactNode }) => {
+  useEffect(() => {
+    const origin = window.location.origin;
+    const isDev = import.meta.env.DEV;
+    
+    if (!isDev && !ALLOWED_ORIGINS.includes(origin)) {
+      document.body.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:system-ui;flex-direction:column;gap:1rem;">
+          <h1 style="color:#991b1b;font-size:2rem;">Access Denied</h1>
+          <p style="color:#666;">This portal is only accessible at <strong>https://jaireddy.uk/portal</strong></p>
+        </div>
+      `;
+    }
+  }, []);
+  
+  return <>{children}</>;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+      <OriginGuard>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter basename="/portal">
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -79,11 +103,20 @@ const App = () => (
               </ProtectedRoute>
             } />
             
+            <Route path="/explorer" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Explorer />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
+      </OriginGuard>
     </TooltipProvider>
   </QueryClientProvider>
 );
