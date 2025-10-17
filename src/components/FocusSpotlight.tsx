@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, Copy, ExternalLink } from 'lucide-react';
 import { FTU_FRAMEWORK, generateTopicScore, generateSparklineData } from '@/lib/seed';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/sonner';
 import { useNavigate } from 'react-router-dom';
 
 interface TopicWithScore {
