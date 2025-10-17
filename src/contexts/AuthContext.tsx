@@ -7,6 +7,7 @@ export interface User {
   email: string;
   name: string;
   role: UserRole;
+  teamTag?: string;
 }
 
 interface AuthContextType {
@@ -19,32 +20,15 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Demo users seeded in localStorage
+// Demo users seeded in localStorage - matches SEED_USERS
 const DEMO_USERS: User[] = [
-  {
-    id: '1',
-    email: 'ceo@raghava.ai',
-    name: 'Dr (Maj) Jai Prathap Reddy',
-    role: 'CEO'
-  },
-  {
-    id: '2',
-    email: 'director@raghava.ai',
-    name: 'John Director',
-    role: 'Director'
-  },
-  {
-    id: '3',
-    email: 'admin@raghava.ai',
-    name: 'Jane Admin',
-    role: 'Admin'
-  },
-  {
-    id: '4',
-    email: 'staff@raghava.ai',
-    name: 'Mike Staff',
-    role: 'Staff'
-  }
+  { id: '1', email: 'ceo@raghava.ai', name: 'Dr (Maj) Jai Prathap Reddy', role: 'CEO' },
+  { id: '2', email: 'director1@raghava.ai', name: 'Sarah Williams', role: 'Director', teamTag: 'Clinical' },
+  { id: '3', email: 'director2@raghava.ai', name: 'Michael Chen', role: 'Director', teamTag: 'Operations' },
+  { id: '4', email: 'admin@raghava.ai', name: 'Jane Admin', role: 'Admin' },
+  { id: '5', email: 'staff1@raghava.ai', name: 'Alex Johnson', role: 'Staff', teamTag: 'Clinical' },
+  { id: '6', email: 'staff2@raghava.ai', name: 'Maria Garcia', role: 'Staff', teamTag: 'Operations' },
+  { id: '7', email: 'staff3@raghava.ai', name: 'David Lee', role: 'Staff', teamTag: 'Finance' },
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

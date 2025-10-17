@@ -473,6 +473,276 @@ export const SEED_CONTACTS: Contact[] = [
   }
 ];
 
+// Seed tasks (40+)
+export const SEED_TASKS: Task[] = [
+  {
+    id: 't1', title: 'Q1 Strategic Review', description: 'Review organizational strategy for Q1', 
+    status: 'Doing', priority: 'Critical', dueDate: '2024-04-15', 
+    assigneeUserId: '1', createdByUserId: '1', ftuId: 'F10.T1', 
+    comments: [{ id: 'tc1', authorUserId: '2', text: 'Started analysis', createdAt: '2024-03-10T10:00:00Z' }],
+    createdAt: '2024-03-01T10:00:00Z', updatedAt: '2024-03-10T10:00:00Z'
+  },
+  {
+    id: 't2', title: 'Clinical Protocol Update', description: 'Update clinical protocols for new guidelines',
+    status: 'Doing', priority: 'High', dueDate: '2024-04-20',
+    assigneeUserId: '2', createdByUserId: '1', ftuId: 'F1.T1',
+    comments: [],
+    createdAt: '2024-03-02T10:00:00Z', updatedAt: '2024-03-02T10:00:00Z'
+  },
+  {
+    id: 't3', title: 'Ops Process Optimization', description: 'Streamline operational workflows',
+    status: 'Backlog', priority: 'Med', dueDate: '2024-05-01',
+    assigneeUserId: '3', createdByUserId: '1', ftuId: 'F9.T3',
+    comments: [],
+    createdAt: '2024-03-03T10:00:00Z', updatedAt: '2024-03-03T10:00:00Z'
+  },
+  {
+    id: 't4', title: 'Staff Training Schedule', description: 'Plan Q2 training sessions',
+    status: 'Done', priority: 'Med', dueDate: '2024-03-25',
+    assigneeUserId: '4', createdByUserId: '1',
+    comments: [{ id: 'tc2', authorUserId: '4', text: 'Completed', createdAt: '2024-03-20T10:00:00Z' }],
+    createdAt: '2024-03-04T10:00:00Z', updatedAt: '2024-03-20T10:00:00Z'
+  },
+  {
+    id: 't5', title: 'Patient Data Analysis', description: 'Analyze patient satisfaction metrics',
+    status: 'Doing', priority: 'High', dueDate: '2024-04-10',
+    assigneeUserId: '5', createdByUserId: '2', ftuId: 'F9.T5',
+    comments: [],
+    createdAt: '2024-03-05T10:00:00Z', updatedAt: '2024-03-05T10:00:00Z'
+  },
+  {
+    id: 't6', title: 'Supply Chain Review', description: 'Review supplier contracts',
+    status: 'Backlog', priority: 'Med', dueDate: '2024-05-15',
+    assigneeUserId: '6', createdByUserId: '3',
+    comments: [],
+    createdAt: '2024-03-06T10:00:00Z', updatedAt: '2024-03-06T10:00:00Z'
+  },
+  {
+    id: 't7', title: 'Financial Report Q1', description: 'Prepare quarterly financial report',
+    status: 'Doing', priority: 'Critical', dueDate: '2024-04-05',
+    assigneeUserId: '7', createdByUserId: '1', ftuId: 'F2.T1',
+    comments: [{ id: 'tc3', authorUserId: '7', text: 'Draft ready', createdAt: '2024-03-15T10:00:00Z' }],
+    createdAt: '2024-03-07T10:00:00Z', updatedAt: '2024-03-15T10:00:00Z'
+  },
+  {
+    id: 't8', title: 'IT Security Audit', description: 'Conduct security compliance audit',
+    status: 'Blocked', priority: 'High', dueDate: '2024-04-30',
+    assigneeUserId: '5', createdByUserId: '4',
+    comments: [{ id: 'tc4', authorUserId: '5', text: 'Waiting on vendor', createdAt: '2024-03-12T10:00:00Z' }],
+    createdAt: '2024-03-08T10:00:00Z', updatedAt: '2024-03-12T10:00:00Z'
+  },
+  {
+    id: 't9', title: 'Marketing Campaign Launch', description: 'Launch new patient outreach campaign',
+    status: 'Done', priority: 'Med', dueDate: '2024-03-20',
+    assigneeUserId: '6', createdByUserId: '3',
+    comments: [],
+    createdAt: '2024-03-09T10:00:00Z', updatedAt: '2024-03-21T10:00:00Z'
+  },
+  {
+    id: 't10', title: 'Equipment Maintenance', description: 'Schedule annual equipment maintenance',
+    status: 'Backlog', priority: 'Low', dueDate: '2024-06-01',
+    assigneeUserId: '6', createdByUserId: '3',
+    comments: [],
+    createdAt: '2024-03-10T10:00:00Z', updatedAt: '2024-03-10T10:00:00Z'
+  },
+  // Add 30 more tasks for comprehensive testing
+  ...Array.from({ length: 30 }, (_, i) => ({
+    id: `t${11 + i}`,
+    title: `Task ${11 + i}: ${['Research', 'Implementation', 'Review', 'Analysis', 'Planning'][i % 5]}`,
+    description: `Description for task ${11 + i}`,
+    status: (['Backlog', 'Doing', 'Blocked', 'Done'] as const)[i % 4],
+    priority: (['Low', 'Med', 'High', 'Critical'] as const)[i % 4],
+    dueDate: new Date(2024, 3, 15 + i).toISOString().split('T')[0],
+    assigneeUserId: String((i % 7) + 1),
+    createdByUserId: String((i % 4) + 1),
+    ftuId: i % 3 === 0 ? `F${(i % 10) + 1}.T${(i % 10) + 1}` : undefined,
+    comments: i % 5 === 0 ? [{ 
+      id: `tc${11 + i}`, 
+      authorUserId: String((i % 7) + 1), 
+      text: `Comment on task ${11 + i}`, 
+      createdAt: new Date(2024, 2, 15 + i).toISOString() 
+    }] : [],
+    createdAt: new Date(2024, 2, 10 + i).toISOString(),
+    updatedAt: new Date(2024, 2, 10 + i).toISOString()
+  }))
+];
+
+// Seed message threads (12+)
+export const SEED_MESSAGES: MessageThread[] = [
+  {
+    id: 'm1', title: 'Q1 Strategy Discussion', participantIds: ['1', '2', '3'], linkedTaskId: 't1', ftuId: 'F10.T1',
+    messages: [
+      { id: 'msg1', senderId: '1', text: 'Let\'s discuss our Q1 priorities', timestamp: '2024-03-01T09:00:00Z' },
+      { id: 'msg2', senderId: '2', text: 'Clinical focus should be on patient outcomes', timestamp: '2024-03-01T09:15:00Z' },
+      { id: 'msg3', senderId: '3', text: 'Agreed. Operations will support that goal', timestamp: '2024-03-01T09:30:00Z' },
+    ],
+    createdAt: '2024-03-01T09:00:00Z', updatedAt: '2024-03-01T09:30:00Z'
+  },
+  {
+    id: 'm2', title: 'Clinical Team Sync', participantIds: ['2', '5'], linkedTaskId: 't2',
+    messages: [
+      { id: 'msg4', senderId: '2', text: '@Alex can you review the new protocols?', timestamp: '2024-03-02T10:00:00Z' },
+      { id: 'msg5', senderId: '5', text: 'On it! Will have feedback by EOD', timestamp: '2024-03-02T10:30:00Z' },
+    ],
+    createdAt: '2024-03-02T10:00:00Z', updatedAt: '2024-03-02T10:30:00Z'
+  },
+  {
+    id: 'm3', title: 'Finance Review', participantIds: ['1', '7'], linkedTaskId: 't7', ftuId: 'F2.T1',
+    messages: [
+      { id: 'msg6', senderId: '1', text: 'How is the Q1 report coming along?', timestamp: '2024-03-07T11:00:00Z' },
+      { id: 'msg7', senderId: '7', text: 'Draft is ready for your review', timestamp: '2024-03-07T14:00:00Z' },
+    ],
+    createdAt: '2024-03-07T11:00:00Z', updatedAt: '2024-03-07T14:00:00Z'
+  },
+  {
+    id: 'm4', title: 'Operations Planning', participantIds: ['3', '6'], 
+    messages: [
+      { id: 'msg8', senderId: '3', text: 'Need to optimize our workflows', timestamp: '2024-03-03T12:00:00Z' },
+      { id: 'msg9', senderId: '6', text: 'I have some ideas to share', timestamp: '2024-03-03T13:00:00Z' },
+    ],
+    createdAt: '2024-03-03T12:00:00Z', updatedAt: '2024-03-03T13:00:00Z'
+  },
+  {
+    id: 'm5', title: 'Admin Updates', participantIds: ['1', '4'], 
+    messages: [
+      { id: 'msg10', senderId: '4', text: 'Training schedule is finalized', timestamp: '2024-03-04T09:00:00Z' },
+      { id: 'msg11', senderId: '1', text: 'Great work!', timestamp: '2024-03-04T09:15:00Z' },
+    ],
+    createdAt: '2024-03-04T09:00:00Z', updatedAt: '2024-03-04T09:15:00Z'
+  },
+  ...Array.from({ length: 7 }, (_, i) => ({
+    id: `m${6 + i}`,
+    title: `Thread ${6 + i}: ${['Project Update', 'Team Sync', 'Quick Question', 'Follow-up'][i % 4]}`,
+    participantIds: [String((i % 7) + 1), String(((i + 1) % 7) + 1)],
+    linkedTaskId: i % 3 === 0 ? `t${10 + i}` : undefined,
+    ftuId: i % 2 === 0 ? `F${(i % 10) + 1}.T${(i % 5) + 1}` : undefined,
+    messages: [
+      { 
+        id: `msg${12 + i * 2}`, 
+        senderId: String((i % 7) + 1), 
+        text: `Message ${i + 1} content`, 
+        timestamp: new Date(2024, 2, 5 + i, 10, 0).toISOString() 
+      },
+      { 
+        id: `msg${13 + i * 2}`, 
+        senderId: String(((i + 1) % 7) + 1), 
+        text: `Reply to message ${i + 1}`, 
+        timestamp: new Date(2024, 2, 5 + i, 10, 30).toISOString() 
+      },
+    ],
+    createdAt: new Date(2024, 2, 5 + i, 10, 0).toISOString(),
+    updatedAt: new Date(2024, 2, 5 + i, 10, 30).toISOString()
+  }))
+];
+
+// Seed vault items (12+)
+export const SEED_VAULT_ITEMS: VaultItem[] = [
+  {
+    id: 'v1', title: 'Strategic Plan 2024', type: 'doc', 
+    value: 'Q1 2024 Strategic Initiatives...', tags: ['Strategy', 'Planning'], 
+    ftuId: 'F10.T1', sensitivity: 'High', createdAt: '2024-01-15T10:00:00Z'
+  },
+  {
+    id: 'v2', title: 'Clinical Guidelines', type: 'doc',
+    value: 'Updated clinical protocols...', tags: ['Clinical', 'Healthcare'],
+    ftuId: 'F1.T1', sensitivity: 'Medium', createdAt: '2024-02-01T10:00:00Z'
+  },
+  {
+    id: 'v3', title: 'Financial Summary Q1', type: 'note',
+    value: 'Revenue: $2.5M, Expenses: $1.8M...', tags: ['Finance', 'Reports'],
+    ftuId: 'F2.T1', sensitivity: 'High', createdAt: '2024-03-01T10:00:00Z'
+  },
+  {
+    id: 'v4', title: 'Meeting Notes - Leadership', type: 'note',
+    value: 'Action items from leadership meeting...', tags: ['Meetings', 'Leadership'],
+    sensitivity: 'Low', createdAt: '2024-03-05T10:00:00Z'
+  },
+  {
+    id: 'v5', title: 'Patient Safety Protocol', type: 'doc',
+    value: 'Emergency response procedures...', tags: ['Clinical', 'Safety'],
+    ftuId: 'F1.T7', sensitivity: 'Medium', createdAt: '2024-02-15T10:00:00Z'
+  },
+  {
+    id: 'v6', title: 'HR Policies', type: 'doc',
+    value: 'Employee handbook and policies...', tags: ['HR', 'Policies'],
+    sensitivity: 'Low', createdAt: '2024-01-20T10:00:00Z'
+  },
+  {
+    id: 'v7', title: 'Board Meeting Minutes', type: 'note',
+    value: 'Confidential board decisions...', tags: ['Board', 'Governance'],
+    sensitivity: 'High', createdAt: '2024-03-10T10:00:00Z'
+  },
+  {
+    id: 'v8', title: 'IT Security Audit', type: 'doc',
+    value: 'Security assessment findings...', tags: ['IT', 'Security'],
+    ftuId: 'F7.T5', sensitivity: 'High', createdAt: '2024-02-20T10:00:00Z'
+  },
+  {
+    id: 'v9', title: 'Operations Manual', type: 'doc',
+    value: 'Standard operating procedures...', tags: ['Operations', 'Process'],
+    sensitivity: 'Low', createdAt: '2024-01-25T10:00:00Z'
+  },
+  {
+    id: 'v10', title: 'Vendor Contracts', type: 'doc',
+    value: 'Contract terms and agreements...', tags: ['Legal', 'Contracts'],
+    sensitivity: 'Medium', createdAt: '2024-02-10T10:00:00Z'
+  },
+  {
+    id: 'v11', title: 'Innovation Ideas', type: 'note',
+    value: 'Brainstorming session notes...', tags: ['Innovation', 'Ideas'],
+    ftuId: 'F10.T3', sensitivity: 'Low', createdAt: '2024-03-12T10:00:00Z'
+  },
+  {
+    id: 'v12', title: 'Compliance Checklist', type: 'doc',
+    value: 'Regulatory compliance items...', tags: ['Compliance', 'Legal'],
+    sensitivity: 'Medium', createdAt: '2024-02-25T10:00:00Z'
+  },
+];
+
+// Seed password items (8+) - encrypted with demo passcode "demo1234"
+export const SEED_PASSWORD_ITEMS: PasswordItem[] = [
+  {
+    id: 'p1', title: 'CEO Email', username: 'ceo@raghava.ai', url: 'https://mail.raghava.ai',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['Email'], ftuId: 'F9.T1',
+    createdAt: '2024-01-10T10:00:00Z'
+  },
+  {
+    id: 'p2', title: 'Clinical System', username: 'admin', url: 'https://clinical.raghava.ai',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['Clinical', 'System'],
+    createdAt: '2024-01-15T10:00:00Z'
+  },
+  {
+    id: 'p3', title: 'Finance Portal', username: 'finance_admin', url: 'https://finance.raghava.ai',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['Finance'], ftuId: 'F2.T1',
+    createdAt: '2024-01-20T10:00:00Z'
+  },
+  {
+    id: 'p4', title: 'HR System', username: 'hr_manager', url: 'https://hr.raghava.ai',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['HR'],
+    createdAt: '2024-01-25T10:00:00Z'
+  },
+  {
+    id: 'p5', title: 'AWS Console', username: 'ops@raghava.ai', url: 'https://console.aws.amazon.com',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['IT', 'Cloud'],
+    createdAt: '2024-02-01T10:00:00Z'
+  },
+  {
+    id: 'p6', title: 'Database Admin', username: 'db_admin', url: 'https://db.raghava.ai',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['IT', 'Database'],
+    createdAt: '2024-02-05T10:00:00Z'
+  },
+  {
+    id: 'p7', title: 'VPN Access', username: 'vpn_user', url: 'https://vpn.raghava.ai',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['IT', 'Security'],
+    createdAt: '2024-02-10T10:00:00Z'
+  },
+  {
+    id: 'p8', title: 'API Keys', username: 'api_service', url: 'https://api.raghava.ai',
+    passwordEnc: 'PLACEHOLDER_ENCRYPTED', tags: ['IT', 'API'], ftuId: 'F7.T5',
+    createdAt: '2024-02-15T10:00:00Z'
+  },
+];
+
 // Initialize all seed data in localStorage
 export function initializeSeedData() {
   const prefix = 'raghava:';
@@ -487,6 +757,18 @@ export function initializeSeedData() {
   
   // Contacts
   localStorage.setItem(`${prefix}contacts`, JSON.stringify(SEED_CONTACTS));
+  
+  // Tasks
+  localStorage.setItem(`${prefix}tasks`, JSON.stringify(SEED_TASKS));
+  
+  // Messages
+  localStorage.setItem(`${prefix}messages`, JSON.stringify(SEED_MESSAGES));
+  
+  // Vault items
+  localStorage.setItem(`${prefix}vault:items`, JSON.stringify(SEED_VAULT_ITEMS));
+  
+  // Password items
+  localStorage.setItem(`${prefix}pm:items`, JSON.stringify(SEED_PASSWORD_ITEMS));
   
   // Topic scores
   const topicScores = generateTopicScoreMap();
