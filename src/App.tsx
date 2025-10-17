@@ -42,13 +42,17 @@ const OriginGuard = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <OriginGuard>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter basename="/portal">
+const App = () => {
+  // Use /portal basename only in production, root in development
+  const basename = import.meta.env.PROD ? "/portal" : "/";
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <OriginGuard>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter basename={basename}>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -115,10 +119,11 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
-      </BrowserRouter>
-      </OriginGuard>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+        </BrowserRouter>
+        </OriginGuard>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
