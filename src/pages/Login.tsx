@@ -38,11 +38,6 @@ const Login = () => {
       <div className="absolute inset-0 gradient-hero opacity-10" />
       
       <div className="w-full max-w-md relative z-10 animate-fade-in">
-        <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to home
-        </Link>
-
         <Card className="shadow-xl">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
