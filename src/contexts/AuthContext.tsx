@@ -1,6 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type UserRole = 'CEO' | 'Director' | 'Admin' | 'Staff';
+export type UserRole = 
+  | 'CEO' 
+  | 'Director' 
+  | 'Admin' 
+  | 'Staff' 
+  | 'IT Team'
+  | 'Family and Friends'
+  | 'CPDP Manager'
+  | 'CPDP TCO'
+  | 'CPDP Staff'
+  | 'CPDP Patients'
+  | 'CPDP Training'
+  | 'CPDP Network';
 
 export interface User {
   id: string;
@@ -29,6 +41,14 @@ const DEMO_USERS: User[] = [
   { id: '5', email: 'staff1@raghava.ai', name: 'Alex Johnson', role: 'Staff', teamTag: 'Clinical' },
   { id: '6', email: 'staff2@raghava.ai', name: 'Maria Garcia', role: 'Staff', teamTag: 'Operations' },
   { id: '7', email: 'staff3@raghava.ai', name: 'David Lee', role: 'Staff', teamTag: 'Finance' },
+  { id: '8', email: 'it@raghava.ai', name: 'James Wilson', role: 'IT Team' },
+  { id: '9', email: 'family@raghava.ai', name: 'Emma Thompson', role: 'Family and Friends' },
+  { id: '10', email: 'cpdp.manager@raghava.ai', name: 'Robert Anderson', role: 'CPDP Manager' },
+  { id: '11', email: 'cpdp.tco@raghava.ai', name: 'Linda Martinez', role: 'CPDP TCO' },
+  { id: '12', email: 'cpdp.staff1@raghava.ai', name: 'John Smith', role: 'CPDP Staff', teamTag: 'CPDP' },
+  { id: '13', email: 'cpdp.patient1@raghava.ai', name: 'Mary Johnson', role: 'CPDP Patients' },
+  { id: '14', email: 'cpdp.training@raghava.ai', name: 'Susan Brown', role: 'CPDP Training' },
+  { id: '15', email: 'cpdp.network@raghava.ai', name: 'Thomas Davis', role: 'CPDP Network' },
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

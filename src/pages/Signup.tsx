@@ -114,10 +114,18 @@ const Signup = () => {
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Staff">Staff</SelectItem>
-                    <SelectItem value="Admin">Admin</SelectItem>
-                    <SelectItem value="Director">Director</SelectItem>
                     <SelectItem value="CEO">CEO</SelectItem>
+                    <SelectItem value="Director">Director</SelectItem>
+                    <SelectItem value="Admin">Admin</SelectItem>
+                    <SelectItem value="Staff">Staff</SelectItem>
+                    <SelectItem value="IT Team">IT Team</SelectItem>
+                    <SelectItem value="Family and Friends">Family and Friends</SelectItem>
+                    <SelectItem value="CPDP Manager">CPDP Manager</SelectItem>
+                    <SelectItem value="CPDP TCO">CPDP TCO</SelectItem>
+                    <SelectItem value="CPDP Staff">CPDP Staff</SelectItem>
+                    <SelectItem value="CPDP Patients">CPDP Patients</SelectItem>
+                    <SelectItem value="CPDP Training">CPDP Training</SelectItem>
+                    <SelectItem value="CPDP Network">CPDP Network</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
