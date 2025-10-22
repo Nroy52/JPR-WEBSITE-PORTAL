@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FocusSpotlight } from '@/components/FocusSpotlight';
+import { SuperUserDashboard } from './SuperUserDashboard';
 import { exportCEODashboardCSV } from '@/lib/csv';
 import { 
   TrendingUp, 
@@ -450,6 +451,12 @@ const CPDPNetworkDashboard = ({ user }: { user: User }) => (
 const Dashboard = () => {
   const { user } = useAuth();
   const isCEO = user?.role === 'CEO';
+  const isSuperUser = user?.role === 'Super User';
+  
+  // Super User gets special dashboard
+  if (isSuperUser) {
+    return <SuperUserDashboard />;
+  }
   
   // Role-specific dashboard rendering
   const renderRoleSpecificDashboard = () => {

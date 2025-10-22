@@ -26,8 +26,8 @@ const Signup = () => {
       const success = signup(email, password, name, role);
       
       if (success) {
-        toast.success('Account created successfully!');
-        navigate('/dashboard');
+        toast.success('Account created! Awaiting admin approval to login.');
+        navigate('/login');
       } else {
         toast.error('Email already exists');
       }
@@ -128,6 +128,9 @@ const Signup = () => {
                     <SelectItem value="CPDP Network">CPDP Network</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Your account will require admin approval before you can login
+                </p>
               </div>
 
               <Button 

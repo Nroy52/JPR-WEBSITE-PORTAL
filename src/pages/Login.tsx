@@ -20,13 +20,13 @@ const Login = () => {
     setIsLoading(true);
 
     setTimeout(() => {
-      const success = login(email, password);
+      const result = login(email, password);
       
-      if (success) {
+      if (result.success) {
         toast.success('Welcome back!');
         navigate('/dashboard');
       } else {
-        toast.error('Invalid email or password');
+        toast.error(result.message || 'Login failed');
       }
       
       setIsLoading(false);
@@ -100,10 +100,10 @@ const Login = () => {
             <div className="mt-6 p-4 bg-muted rounded-lg">
               <p className="text-xs text-muted-foreground mb-2 font-medium">Demo Credentials:</p>
               <ul className="text-xs space-y-1 text-muted-foreground">
+                <li className="font-semibold text-yellow-600">Super User: superuser@raghava.ai / superadmin123</li>
                 <li>CEO: ceo@raghava.ai / password123</li>
-                <li>Director: director@raghava.ai / password123</li>
                 <li>Admin: admin@raghava.ai / password123</li>
-                <li>Staff: staff@raghava.ai / password123</li>
+                <li>Staff: staff1@raghava.ai / password123</li>
               </ul>
             </div>
           </CardContent>
