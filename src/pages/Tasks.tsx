@@ -10,8 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Plus, Download, MessageSquare, Calendar, User } from 'lucide-react';
-import { Task, TaskComment, SEED_USERS } from '@/lib/seed';
-import { useAuth } from '@/contexts/AuthContext';
+import { Task, TaskComment } from '@/lib/seed';
+import { useAuth, User as AuthUser } from '@/contexts/AuthContext';
 import { exportTasksCSV } from '@/lib/csv';
 import { toast } from '@/hooks/use-toast';
 
@@ -21,12 +21,21 @@ const Tasks = () => {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [showAddTask, setShowAddTask] = useState(false);
   const [newComment, setNewComment] = useState('');
+  const [approvedUsers, setApprovedUsers] = useState<AuthUser[]>([]);
 
-  // Load tasks
+  // Load tasks and users
   useEffect(() => {
     const stored = localStorage.getItem('raghava:tasks');
     if (stored) {
       setTasks(JSON.parse(stored));
+    }
+
+    // Load approved users from localStorage
+    const usersStr = localStorage.getItem('raghava_users');
+    if (usersStr) {
+      const users: AuthUser[] = JSON.parse(usersStr);
+      const approved = users.filter(u => u.status === 'approved');
+      setApprovedUsers(approved);
     }
   }, []);
 
@@ -41,7 +50,7 @@ const Tasks = () => {
       
       if (user.role === 'Director') {
         // See tasks they created or assigned to same team
-        const assignee = SEED_USERS.find(u => u.id === task.assigneeUserId);
+        const assignee = approvedUsers.find(u => u.id === task.assigneeUserId);
         return task.createdByUserId === user.id || 
                (assignee?.teamTag && assignee.teamTag === user.teamTag);
       }
@@ -136,7 +145,7 @@ const Tasks = () => {
   };
 
   const getUserName = (userId: string) => {
-    const user = SEED_USERS.find(u => u.id === userId);
+    const user = approvedUsers.find(u => u.id === userId);
     return user ? `${user.name} — ${user.role}` : 'Unknown';
   };
 
@@ -176,10 +185,10 @@ const Tasks = () => {
                         <Badge variant={getPriorityColor(task.priority)}>{task.priority}</Badge>
                         {task.ftuId && <Badge variant="outline">{task.ftuId}</Badge>}
                       </div>
-                      <div className="text-xs text-muted-foreground space-y-1">
+                       <div className="text-xs text-muted-foreground space-y-1">
                         <div className="flex items-center gap-1">
                           <User className="h-3 w-3" />
-                          {SEED_USERS.find(u => u.id === task.assigneeUserId)?.name}
+                          {approvedUsers.find(u => u.id === task.assigneeUserId)?.name}
                         </div>
                         {task.dueDate && (
                           <div className="flex items-center gap-1">
@@ -265,7 +274,7 @@ const Tasks = () => {
                         <SelectValue placeholder="Select user" />
                       </SelectTrigger>
                       <SelectContent>
-                        {SEED_USERS.map(u => (
+                        {approvedUsers.map(u => (
                           <SelectItem key={u.id} value={u.id}>
                             {u.name} — {u.role}
                           </SelectItem>
