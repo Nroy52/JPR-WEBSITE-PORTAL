@@ -3,31 +3,39 @@ import { useAuth, User } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Shield, CheckCircle, XCircle, AlertCircle, Users } from 'lucide-react';
+import { Shield, CheckCircle, XCircle, AlertCircle, Users, Calendar, Clock } from 'lucide-react';
 import { toast } from 'sonner';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 export const SuperUserDashboard = () => {
   const { getPendingUsers, approveUser, denyUser } = useAuth();
   const [pendingUsers, setPendingUsers] = useState<User[]>([]);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
 
-  const loadPendingUsers = () => {
+  const loadData = () => {
     setPendingUsers(getPendingUsers());
+    
+    const usersStr = localStorage.getItem('raghava_users');
+    if (usersStr) {
+      const users: User[] = JSON.parse(usersStr);
+      setAllUsers(users.filter(u => u.status === 'approved'));
+    }
   };
 
   useEffect(() => {
-    loadPendingUsers();
+    loadData();
   }, []);
 
   const handleApprove = (userId: string, userName: string) => {
     approveUser(userId);
     toast.success(`${userName} has been approved`);
-    loadPendingUsers();
+    loadData();
   };
 
   const handleDeny = (userId: string, userName: string) => {
     denyUser(userId);
     toast.error(`${userName} has been denied access`);
-    loadPendingUsers();
+    loadData();
   };
 
   const getRoleBadgeColor = (role: string) => {
@@ -43,6 +51,11 @@ export const SuperUserDashboard = () => {
     return colors[role] || 'bg-gray-500';
   };
 
+  const formatDate = (dateStr?: string) => {
+    if (!dateStr) return 'N/A';
+    return new Date(dateStr).toLocaleDateString() + ' ' + new Date(dateStr).toLocaleTimeString();
+  };
+
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
@@ -52,7 +65,7 @@ export const SuperUserDashboard = () => {
             Super User Dashboard
           </h1>
           <p className="text-muted-foreground text-lg">
-            Review and approve user access requests
+            Review and manage user access, view signup and login details
           </p>
         </div>
 
@@ -78,10 +91,8 @@ export const SuperUserDashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-bold">
-                {JSON.parse(localStorage.getItem('raghava_users') || '[]').length}
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">In the system</p>
+              <div className="text-4xl font-bold">{allUsers.length}</div>
+              <p className="text-sm text-muted-foreground mt-1">Approved users</p>
             </CardContent>
           </Card>
 
@@ -99,23 +110,16 @@ export const SuperUserDashboard = () => {
           </Card>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Pending User Approvals</CardTitle>
-            <CardDescription>
-              Review user information and approve or deny access to the portal
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {pendingUsers.length === 0 ? (
-              <div className="text-center py-12">
-                <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">All Caught Up!</h3>
-                <p className="text-muted-foreground">
-                  No pending user requests at the moment.
-                </p>
-              </div>
-            ) : (
+        {/* Pending Approvals */}
+        {pendingUsers.length > 0 && (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="text-2xl">Pending User Approvals</CardTitle>
+              <CardDescription>
+                Review user information and approve or deny access to the portal
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
               <div className="space-y-4">
                 {pendingUsers.map((user) => (
                   <div
@@ -131,11 +135,9 @@ export const SuperUserDashboard = () => {
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">{user.email}</p>
-                        <div className="mt-3 flex items-center gap-2">
-                          <AlertCircle className="h-4 w-4 text-yellow-500" />
-                          <span className="text-sm text-yellow-600 font-medium">
-                            Pending Approval
-                          </span>
+                        <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                          <Calendar className="h-4 w-4" />
+                          Signed up: {formatDate(user.signupDate)}
                         </div>
                       </div>
                       
@@ -159,7 +161,57 @@ export const SuperUserDashboard = () => {
                   </div>
                 ))}
               </div>
-            )}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* All Users Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl">All Approved Users</CardTitle>
+            <CardDescription>
+              View signup dates, last login times, names, and roles
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Team</TableHead>
+                  <TableHead>Signup Date</TableHead>
+                  <TableHead>Last Login</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {allUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <Badge className={getRoleBadgeColor(user.role)}>
+                        {user.role}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{user.teamTag || 'N/A'}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2 text-sm">
+                        <Calendar className="h-4 w-4" />
+                        {formatDate(user.signupDate)}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2 text-sm">
+                        <Clock className="h-4 w-4" />
+                        {formatDate(user.lastLogin)}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
 

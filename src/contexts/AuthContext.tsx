@@ -24,6 +24,8 @@ export interface User {
   role: UserRole;
   teamTag?: string;
   status?: UserStatus;
+  signupDate?: string;
+  lastLogin?: string;
 }
 
 interface AuthContextType {
@@ -50,21 +52,21 @@ const SUPER_USER: User = {
 
 // Demo users seeded in localStorage - all pre-approved
 const DEMO_USERS: User[] = [
-  { id: '1', email: 'ceo@raghava.ai', name: 'Dr (Maj) Jai Prathap Reddy', role: 'CEO', status: 'approved' },
-  { id: '2', email: 'director1@raghava.ai', name: 'Sarah Williams', role: 'Director', teamTag: 'Clinical', status: 'approved' },
-  { id: '3', email: 'director2@raghava.ai', name: 'Michael Chen', role: 'Director', teamTag: 'Operations', status: 'approved' },
-  { id: '4', email: 'admin@raghava.ai', name: 'Jane Admin', role: 'Admin', status: 'approved' },
-  { id: '5', email: 'staff1@raghava.ai', name: 'Alex Johnson', role: 'Staff', teamTag: 'Clinical', status: 'approved' },
-  { id: '6', email: 'staff2@raghava.ai', name: 'Maria Garcia', role: 'Staff', teamTag: 'Operations', status: 'approved' },
-  { id: '7', email: 'staff3@raghava.ai', name: 'David Lee', role: 'Staff', teamTag: 'Finance', status: 'approved' },
-  { id: '8', email: 'it@raghava.ai', name: 'James Wilson', role: 'IT Team', status: 'approved' },
-  { id: '9', email: 'family@raghava.ai', name: 'Emma Thompson', role: 'Family and Friends', status: 'approved' },
-  { id: '10', email: 'cpdp.manager@raghava.ai', name: 'Robert Anderson', role: 'CPDP Manager', status: 'approved' },
-  { id: '11', email: 'cpdp.tco@raghava.ai', name: 'Linda Martinez', role: 'CPDP TCO', status: 'approved' },
-  { id: '12', email: 'cpdp.staff1@raghava.ai', name: 'John Smith', role: 'CPDP Staff', teamTag: 'CPDP', status: 'approved' },
-  { id: '13', email: 'cpdp.patient1@raghava.ai', name: 'Mary Johnson', role: 'CPDP Patients', status: 'approved' },
-  { id: '14', email: 'cpdp.training@raghava.ai', name: 'Susan Brown', role: 'CPDP Training', status: 'approved' },
-  { id: '15', email: 'cpdp.network@raghava.ai', name: 'Thomas Davis', role: 'CPDP Network', status: 'approved' },
+  { id: '1', email: 'ceo@raghava.ai', name: 'Dr (Maj) Jai Prathap Reddy', role: 'CEO', status: 'approved', signupDate: new Date().toISOString(), lastLogin: new Date().toISOString() },
+  { id: '2', email: 'director1@raghava.ai', name: 'Sarah Williams', role: 'Director', teamTag: 'Clinical', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '3', email: 'director2@raghava.ai', name: 'Michael Chen', role: 'Director', teamTag: 'Operations', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '4', email: 'admin@raghava.ai', name: 'Jane Admin', role: 'Admin', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '5', email: 'staff1@raghava.ai', name: 'Alex Johnson', role: 'Staff', teamTag: 'Clinical', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '6', email: 'staff2@raghava.ai', name: 'Maria Garcia', role: 'Staff', teamTag: 'Operations', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '7', email: 'staff3@raghava.ai', name: 'David Lee', role: 'Staff', teamTag: 'Finance', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '8', email: 'it@raghava.ai', name: 'James Wilson', role: 'IT Team', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '9', email: 'family@raghava.ai', name: 'Emma Thompson', role: 'Family and Friends', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '10', email: 'cpdp.manager@raghava.ai', name: 'Robert Anderson', role: 'CPDP Manager', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '11', email: 'cpdp.tco@raghava.ai', name: 'Linda Martinez', role: 'CPDP TCO', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '12', email: 'cpdp.staff1@raghava.ai', name: 'John Smith', role: 'CPDP Staff', teamTag: 'CPDP', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '13', email: 'cpdp.patient1@raghava.ai', name: 'Mary Johnson', role: 'CPDP Patients', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '14', email: 'cpdp.training@raghava.ai', name: 'Susan Brown', role: 'CPDP Training', status: 'approved', signupDate: new Date().toISOString() },
+  { id: '15', email: 'cpdp.network@raghava.ai', name: 'Thomas Davis', role: 'CPDP Network', status: 'approved', signupDate: new Date().toISOString() },
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -121,6 +123,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { success: false, message: 'Your account access has been denied. Please contact support.' };
     }
 
+    // Update last login
+    foundUser.lastLogin = new Date().toISOString();
+    users[users.findIndex(u => u.id === foundUser.id)] = foundUser;
+    localStorage.setItem('raghava_users', JSON.stringify(users));
+
     setUser(foundUser);
     localStorage.setItem('raghava_current_user', JSON.stringify(foundUser));
     return { success: true };
@@ -143,7 +150,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email,
       name,
       role,
-      status: 'pending'
+      status: 'pending',
+      signupDate: new Date().toISOString()
     };
 
     users.push(newUser);
