@@ -44,20 +44,21 @@ const Tasks = () => {
     if (!user) return [];
     
     return tasks.filter(task => {
-      if (user.role === 'CEO' || user.role === 'Admin') {
+      if (user.role === 'CEO' || user.role === 'Admin' || user.role === 'Super User') {
         return true; // See all tasks
       }
       
       if (user.role === 'Director') {
-        // See tasks they created or assigned to same team
+        // See tasks they created, assigned to them, or assigned to same team
         const assignee = approvedUsers.find(u => u.id === task.assigneeUserId);
         return task.createdByUserId === user.id || 
+               task.assigneeUserId === user.id ||
                (assignee?.teamTag && assignee.teamTag === user.teamTag);
       }
       
       if (user.role === 'Staff') {
-        // Only see tasks assigned to them
-        return task.assigneeUserId === user.id;
+        // See tasks they created or assigned to them
+        return task.createdByUserId === user.id || task.assigneeUserId === user.id;
       }
       
       return false;
