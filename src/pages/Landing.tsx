@@ -68,21 +68,18 @@ const Landing = () => {
           {/* Buttons */}
           <div className="pt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
-              onClick={() => navigate("/login")}
-              size="lg"
-              className="gradient-ceo text-navy px-10 py-6 text-lg hover-lift shadow-lg"
-            >
-              Access Portal
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-
-            <Button 
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/vision")}
               size="lg"
               variant="outline"
-              className="border-2 border-gold text-gold hover:bg-gold/10 px-10 py-6 text-lg hover-lift shadow-lg"
+              className="border-2 text-lg hover-lift shadow-lg px-10 py-6"
+              style={{ 
+                borderColor: `hsl(var(--gold))`,
+                color: `hsl(var(--gold))`,
+                backgroundColor: 'transparent'
+              }}
             >
-              Create Account
+              Explore the Vision
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>

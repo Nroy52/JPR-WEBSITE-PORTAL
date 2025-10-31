@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import DashboardLayout from "@/components/DashboardLayout";
 import Landing from "./pages/Landing";
+import Vision from "./pages/Vision";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
@@ -56,6 +57,7 @@ const App = () => {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route path="/vision" element={<Vision />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             
