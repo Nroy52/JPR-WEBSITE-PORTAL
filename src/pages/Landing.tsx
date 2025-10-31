@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import jprLogo from "@/assets/jaisirlogo.png";
-import shadowImage from "@/assets/shadow-image.jpeg";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Crown } from "lucide-react";
 
 const Landing = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-black">
-      {/* Shadow image on the LEFT side */}
-      <div 
-        className="absolute left-0 top-0 bottom-0 w-1/3 bg-cover bg-center opacity-50"
-        style={{ backgroundImage: `url(${shadowImage})` }}
-      />
+      {/* Geometric pattern background on the LEFT side */}
+      <div className="absolute left-0 top-0 bottom-0 w-1/3 opacity-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-transparent" />
+        <div className="absolute inset-0" style={{
+          backgroundImage: `repeating-linear-gradient(45deg, hsl(var(--gold) / 0.1) 0px, hsl(var(--gold) / 0.1) 2px, transparent 2px, transparent 10px)`
+        }} />
+      </div>
 
       {/* Gradient overlay from left */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/90 to-black" />
@@ -22,15 +22,16 @@ const Landing = () => {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12">
         <div className="max-w-4xl w-full text-center space-y-8 animate-fade-in">
 
-          {/* Golden Logo with Golden Glow in Center */}
+          {/* Golden Crown Icon with Golden Glow in Center */}
           <div className="flex justify-center mb-12">
             <div className="relative">
-              <img 
-                src={jprLogo} 
-                alt="JPR Logo" 
-                className="w-48 h-48 lg:w-64 lg:h-64 object-contain"
-                style={{ filter: 'drop-shadow(0 0 40px hsl(var(--gold) / 0.6))' }}
-              />
+              <div className="w-48 h-48 lg:w-64 lg:h-64 flex items-center justify-center">
+                <Crown 
+                  className="w-32 h-32 lg:w-40 lg:h-40 text-gold" 
+                  strokeWidth={1.5}
+                  style={{ filter: 'drop-shadow(0 0 40px hsl(var(--gold) / 0.6))' }}
+                />
+              </div>
               {/* Golden glow background */}
               <div className="absolute inset-0 blur-3xl opacity-40" 
                   style={{ background: 'radial-gradient(circle, hsl(var(--gold) / 0.8) 0%, transparent 70%)' }} 
