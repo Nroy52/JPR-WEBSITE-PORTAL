@@ -27,39 +27,42 @@ const Landing = () => {
             <div className="relative">
               <div className="w-48 h-48 lg:w-64 lg:h-64 flex items-center justify-center">
                 <Crown 
-                  className="w-32 h-32 lg:w-40 lg:h-40 text-gold" 
+                  className="w-32 h-32 lg:w-40 lg:h-40"
                   strokeWidth={1.5}
-                  style={{ filter: 'drop-shadow(0 0 40px hsl(var(--gold) / 0.6))' }}
+                  style={{ color: '#CDA434', filter: 'drop-shadow(0 0 40px rgba(205, 164, 52, 0.6))' }}
                 />
               </div>
               {/* Golden glow background */}
               <div className="absolute inset-0 blur-3xl opacity-40" 
-                  style={{ background: 'radial-gradient(circle, hsl(var(--gold) / 0.8) 0%, transparent 70%)' }} 
+                  style={{ background: 'radial-gradient(circle, rgba(205, 164, 52, 0.8) 0%, transparent 70%)' }} 
               />
             </div>
           </div>
 
           {/* Name and Bio - Centered */}
           <div className="space-y-6">
-            <h1 className="text-5xl lg:text-7xl font-bold text-foreground gold-glow">
+            <h1 className="text-5xl lg:text-7xl font-bold gold-glow" style={{ color: '#E8E8EC' }}>
               Jai Prathap Reddy
             </h1>
 
-            <p className="text-xl lg:text-2xl text-gold font-semibold">
+            <p className="text-xl lg:text-2xl font-semibold" style={{ color: '#CDA434' }}>
               Dentist, Army Major (retd), Visionary CEO,<br />
               Vishwa Guru in Becoming
             </p>
 
             {/* Awards */}
             <div className="pt-2 pb-2">
-              <p className="text-base lg:text-lg text-gold/80">
+              <p className="text-base lg:text-lg" style={{ color: 'rgba(205, 164, 52, 0.8)' }}>
                 Two times Global Excellence Award<br />
                 by the UK Parliament
               </p>
             </div>
 
             {/* Quote */}
-            <blockquote className="text-xl lg:text-2xl italic text-gold font-semibold pt-6 border-t border-gold/30 max-w-2xl mx-auto">
+            <blockquote className="text-xl lg:text-2xl italic font-semibold pt-6 max-w-2xl mx-auto" style={{ 
+              color: '#CDA434',
+              borderTop: '1px solid rgba(205, 164, 52, 0.3)'
+            }}>
               "Crowned by Dharma. Guided by Vision.<br />
               Rising as VishwaGuru."
             </blockquote>
@@ -73,8 +76,8 @@ const Landing = () => {
               variant="outline"
               className="border-2 text-lg hover-lift shadow-lg px-10 py-6"
               style={{ 
-                borderColor: `hsl(var(--gold))`,
-                color: `hsl(var(--gold))`,
+                borderColor: '#CDA434',
+                color: '#CDA434',
                 backgroundColor: 'transparent'
               }}
             >
