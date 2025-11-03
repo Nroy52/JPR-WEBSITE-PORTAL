@@ -29,8 +29,10 @@ const OriginGuard = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const origin = window.location.origin;
     const isDev = import.meta.env.DEV;
-    
-    if (!isDev && !ALLOWED_ORIGINS.includes(origin)) {
+    const hostname = new URL(origin).hostname;
+    const isVercel = /\.vercel\.app$/.test(hostname);
+
+    if (!isDev && !ALLOWED_ORIGINS.includes(origin) && !isVercel) {
       document.body.innerHTML = `
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:system-ui;flex-direction:column;gap:1rem;">
           <h1 style="color:#991b1b;font-size:2rem;">Access Denied</h1>
@@ -44,8 +46,9 @@ const OriginGuard = ({ children }: { children: React.ReactNode }) => {
 };
 
 const App = () => {
-  // Use /portal basename only in production, root in development
-  const basename = import.meta.env.PROD ? "/portal" : "/";
+  // Derive basename from Vite BASE_URL for correct routing
+  const baseUrl = import.meta.env.BASE_URL;
+  const basename = baseUrl === "/" ? "/" : baseUrl.replace(/\/$/, "");
   
   return (
     <QueryClientProvider client={queryClient}>

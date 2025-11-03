@@ -4,7 +4,8 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === "development" ? "/" : "/portal/",
+  // Serve from root on Vercel to avoid asset 404s
+  base: "/",
   server: {
     host: "::",
     port: 8080,

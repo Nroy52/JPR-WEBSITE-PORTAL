@@ -785,7 +785,7 @@ const Dashboard = () => {
               <CardDescription>Frequently used tools</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Button variant="outline" className="w-full justify-start" onClick={() => window.location.href = '/portal/explorer'}>
+              <Button variant="outline" className="w-full justify-start" onClick={() => navigate('/explorer')}>
                 Explore Focus → Topic → Unit
               </Button>
               <Button variant="outline" className="w-full justify-start" onClick={handleExportCSV}>
