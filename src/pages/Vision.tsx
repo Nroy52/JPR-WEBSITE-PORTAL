@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Crown, Pill, Globe, Bot, Award, ShoppingCart, Building2, GraduationCap, Podcast, Sprout, Target } from "lucide-react";
+import { ArrowRight, Pill, Globe, Bot, Award, ShoppingCart, Building2, GraduationCap, Podcast, Sprout, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import jprLogo from "@/assets/jaisirlogo.png";
 
 const COLORS = {
   bgDark: "#0B0B0D",
@@ -99,10 +100,11 @@ const Vision = () => {
         {/* Logo */}
         <div className="mb-6">
           <div className="w-40 h-40 md:w-60 md:h-60 mx-auto flex items-center justify-center">
-            <Crown 
-              className="w-32 h-32 md:w-48 md:h-48" 
-              style={{ color: COLORS.gold, filter: 'drop-shadow(0 0 20px hsla(45, 60%, 50% / 0.4))' }}
-              strokeWidth={1.5}
+            <img 
+              src={jprLogo}
+              alt="JPR Logo"
+              className="w-32 h-32 md:w-48 md:h-48 object-contain" 
+              style={{ filter: 'drop-shadow(0 0 20px hsla(45, 60%, 50% / 0.4))' }}
             />
           </div>
         </div>
