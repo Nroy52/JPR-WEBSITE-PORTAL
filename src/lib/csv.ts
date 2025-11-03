@@ -10,7 +10,11 @@ import { Contact, Task, VaultItem, PasswordItem } from './seed';
 function arrayToCSV(data: any[], headers: string[]): string {
   const escape = (val: any): string => {
     if (val === null || val === undefined) return '';
-    const str = String(val);
+    let str = String(val);
+    // Mitigate CSV formula injection in spreadsheet apps
+    if (/^[=+\-@\t\s]/.test(str)) {
+      str = "'" + str;
+    }
     if (str.includes(',') || str.includes('"') || str.includes('\n')) {
       return `"${str.replace(/"/g, '""')}"`;
     }

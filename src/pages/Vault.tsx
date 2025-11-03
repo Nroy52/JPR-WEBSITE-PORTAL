@@ -514,7 +514,7 @@ const Vault = () => {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => window.open(item.url, '_blank')}
+                              onClick={() => window.open(item.url, '_blank', 'noopener,noreferrer')}
                             >
                               <ExternalLink className="h-4 w-4 mr-2" />
                               {item.url}

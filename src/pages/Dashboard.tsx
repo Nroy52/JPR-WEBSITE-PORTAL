@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FocusSpotlight } from '@/components/FocusSpotlight';
+import { useNavigate } from 'react-router-dom';
 import { SuperUserDashboard } from './SuperUserDashboard';
 import { exportCEODashboardCSV } from '@/lib/csv';
 import { 
@@ -450,6 +451,7 @@ const CPDPNetworkDashboard = ({ user }: { user: User }) => (
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const isCEO = user?.role === 'CEO';
   const isSuperUser = user?.role === 'Super User';
   
